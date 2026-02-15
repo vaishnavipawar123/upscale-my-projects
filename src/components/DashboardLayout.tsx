@@ -1,21 +1,21 @@
+import { useState } from "react";
 import { Outlet } from "react-router-dom";
-import AppSidebar, { useSidebarCollapsed } from "./AppSidebar";
-
-function LayoutContent() {
-  // We can't use useSidebarCollapsed here because AppSidebar provides its own context.
-  // Instead, we use a simple approach with CSS transition.
-  return (
-    <main className="ml-[72px] min-h-screen transition-all duration-300">
-      <Outlet />
-    </main>
-  );
-}
+import AppSidebar, { SidebarContext } from "./AppSidebar";
 
 export default function DashboardLayout() {
+  const [collapsed, setCollapsed] = useState(true);
+
   return (
-    <div className="min-h-screen bg-background">
-      <AppSidebar />
-      <LayoutContent />
-    </div>
+    <SidebarContext.Provider value={{ collapsed, setCollapsed }}>
+      <div className="min-h-screen bg-background">
+        <AppSidebar />
+        <main
+          className="min-h-screen transition-all duration-300"
+          style={{ marginLeft: collapsed ? 72 : 240 }}
+        >
+          <Outlet />
+        </main>
+      </div>
+    </SidebarContext.Provider>
   );
 }
