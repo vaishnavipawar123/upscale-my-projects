@@ -12,8 +12,10 @@ import NotesGenerator from "./pages/NotesGenerator";
 import MainsEvaluator from "./pages/MainsEvaluator";
 import MockInterview from "./pages/MockInterview";
 import PerformanceAnalytics from "./pages/PerformanceAnalytics";
-import Community from "./pages/Community";
 import SettingsPage from "./pages/SettingsPage";
+import TermsPage from "./pages/TermsPage";
+import PrivacyPage from "./pages/PrivacyPage";
+import RefundPage from "./pages/RefundPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -34,8 +36,10 @@ const App = () => (
             <Route path="/mains-evaluator" element={<MainsEvaluator />} />
             <Route path="/mock-interview" element={<MockInterview />} />
             <Route path="/analytics" element={<PerformanceAnalytics />} />
-            <Route path="/community" element={<Community />} />
             <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/terms" element={<TermsPage />} />
+            <Route path="/privacy" element={<PrivacyPage />} />
+            <Route path="/refund" element={<RefundPage />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
