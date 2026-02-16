@@ -1,8 +1,7 @@
 import { motion } from "framer-motion";
-import { Flame, Trophy, BookOpen, BarChart3, Target, Clock, ArrowRight, Star } from "lucide-react";
+import { Flame, Trophy, BookOpen, BarChart3, Target, Clock, ArrowRight, Star, Check, Shield, Zap } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import { useRef } from "react";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
@@ -48,6 +47,47 @@ const feedbacks = [
   { name: "Vikram P.", rank: "AIR 34", text: "Best investment in my UPSC journey. The AI mentor is like having a personal guide." },
 ];
 
+const reviews = [
+  { name: "Ananya R.", location: "Delhi", rating: 5, text: "Switched from traditional coaching to this. My prelims score jumped by 40 marks in just 2 months.", avatar: "A" },
+  { name: "Karthik V.", location: "Chennai", rating: 5, text: "The AI-generated study plans are spot-on. It knows exactly where I'm weak and pushes me there.", avatar: "K" },
+  { name: "Meera J.", location: "Pune", rating: 5, text: "Mock interviews felt incredibly real. The AI feedback on body language tips was a game-changer.", avatar: "M" },
+  { name: "Siddharth G.", location: "Lucknow", rating: 4, text: "Current affairs summaries save me 2 hours daily. Worth every rupee of the subscription.", avatar: "S" },
+  { name: "Ritu P.", location: "Jaipur", rating: 5, text: "My answer writing improved drastically with the Mains Evaluator. Got consistent 10+ marks in GS papers.", avatar: "R" },
+  { name: "Arjun M.", location: "Bangalore", rating: 5, text: "The PYQ pattern analysis helped me predict 3 questions correctly in Prelims 2025!", avatar: "A" },
+];
+
+const plans = [
+  {
+    name: "Free Trial",
+    price: "₹0",
+    duration: "3 Days",
+    description: "Experience the full platform risk-free",
+    features: ["AI Study Planner", "PYQ Practice (limited)", "Current Affairs Daily", "Basic Analytics"],
+    cta: "Start Free Trial",
+    popular: false,
+  },
+  {
+    name: "Mains + Prelims",
+    price: "₹499",
+    originalPrice: "₹999",
+    duration: "/month",
+    description: "Complete preparation for both stages",
+    features: ["Everything in Trial", "Unlimited PYQ Practice", "Mains Answer Evaluator", "Notes Generator", "Full Analytics Dashboard", "Mock Tests"],
+    cta: "Get Started",
+    popular: true,
+  },
+  {
+    name: "IAS Complete",
+    price: "₹1,299",
+    originalPrice: "₹2,499",
+    duration: "/month",
+    description: "End-to-end IAS preparation with interview prep",
+    features: ["Everything in Mains+Prelims", "AI Mock Interviews", "Personality Test Prep", "1-on-1 AI Mentor", "Priority Support", "Custom Study Roadmap"],
+    cta: "Go Premium",
+    popular: false,
+  },
+];
+
 export default function Index() {
   return (
     <motion.div
@@ -84,7 +124,7 @@ export default function Index() {
         <motion.div variants={fadeUp} className="glass-card p-6 space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-semibold text-foreground">Today's Study Plan</h2>
-            <span className="text-xs text-primary font-medium gradient-bg px-2 py-1 rounded-full text-primary-foreground">AI Generated</span>
+            <span className="text-xs font-medium gradient-bg px-2 py-1 rounded-full text-primary-foreground">AI Generated</span>
           </div>
           <div className="space-y-3">
             {studyTasks.map((item, i) => (
@@ -143,9 +183,91 @@ export default function Index() {
         </div>
       </motion.div>
 
-      {/* Feedback Marquee */}
+      {/* Pricing Section */}
+      <motion.div variants={fadeUp} className="space-y-6">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-foreground">Choose Your Plan</h2>
+          <p className="text-muted-foreground mt-1">Start free, upgrade when you're ready</p>
+        </div>
+        <div className="grid md:grid-cols-3 gap-6">
+          {plans.map((plan) => (
+            <div
+              key={plan.name}
+              className={`glass-card p-6 space-y-4 relative ${
+                plan.popular ? "border-primary/50 glow-md" : ""
+              }`}
+            >
+              {plan.popular && (
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 gradient-bg text-primary-foreground text-xs font-bold px-3 py-1 rounded-full">
+                  Most Popular
+                </span>
+              )}
+              <div>
+                <h3 className="text-lg font-bold text-foreground">{plan.name}</h3>
+                <p className="text-xs text-muted-foreground mt-1">{plan.description}</p>
+              </div>
+              <div className="flex items-baseline gap-1">
+                <span className="text-3xl font-bold text-foreground">{plan.price}</span>
+                <span className="text-sm text-muted-foreground">{plan.duration}</span>
+                {plan.originalPrice && (
+                  <span className="text-sm text-muted-foreground line-through ml-2">{plan.originalPrice}</span>
+                )}
+              </div>
+              <ul className="space-y-2">
+                {plan.features.map((f) => (
+                  <li key={f} className="flex items-center gap-2 text-sm text-foreground">
+                    <Check className="w-4 h-4 text-primary flex-shrink-0" />
+                    {f}
+                  </li>
+                ))}
+              </ul>
+              <Button
+                className={`w-full ${
+                  plan.popular
+                    ? "gradient-bg text-primary-foreground glow-sm hover:opacity-90"
+                    : ""
+                }`}
+                variant={plan.popular ? "default" : "outline"}
+              >
+                {plan.cta}
+              </Button>
+            </div>
+          ))}
+        </div>
+      </motion.div>
+
+      {/* Reviews Section */}
+      <motion.div variants={fadeUp} className="space-y-6">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-foreground">What Our Students Say</h2>
+          <p className="text-muted-foreground mt-1">Real feedback from real aspirants</p>
+        </div>
+        <div className="grid md:grid-cols-3 gap-4">
+          {reviews.map((r, i) => (
+            <div key={i} className="glass-card-hover p-5 space-y-3">
+              <div className="flex items-center gap-1">
+                {[...Array(5)].map((_, j) => (
+                  <Star key={j} className={`w-3.5 h-3.5 ${j < r.rating ? "fill-yellow-400 text-yellow-400" : "text-muted-foreground"}`} />
+                ))}
+              </div>
+              <p className="text-sm text-foreground leading-relaxed">"{r.text}"</p>
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-full gradient-bg flex items-center justify-center text-primary-foreground text-xs font-bold">
+                  {r.avatar}
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-foreground">{r.name}</p>
+                  <p className="text-xs text-muted-foreground">{r.location}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </motion.div>
+
+      {/* Topper Marquee */}
       <motion.div variants={fadeUp} className="space-y-4">
-        <h2 className="text-lg font-semibold text-foreground">What Toppers Say</h2>
+        <h2 className="text-lg font-semibold text-foreground">Topper Testimonials</h2>
         <div className="relative overflow-hidden">
           <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-background to-transparent z-10" />
           <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-background to-transparent z-10" />
@@ -176,18 +298,30 @@ export default function Index() {
             <p className="text-xs text-muted-foreground mt-2">AI-powered UPSC preparation platform for serious aspirants.</p>
           </div>
           {[
-            { title: "Platform", links: ["PYQ Practice", "Mains Evaluator", "Mock Interview"] },
-            { title: "Resources", links: ["Current Affairs", "Notes Generator", "Analytics"] },
-            { title: "Company", links: ["About Us", "Contact", "Privacy Policy"] },
+            { title: "Platform", links: [
+              { label: "PYQ Practice", href: "/pyq-practice" },
+              { label: "Mains Evaluator", href: "/mains-evaluator" },
+              { label: "Mock Interview", href: "/mock-interview" },
+            ]},
+            { title: "Resources", links: [
+              { label: "Current Affairs", href: "/current-affairs" },
+              { label: "Notes Generator", href: "/notes-generator" },
+              { label: "Analytics", href: "/analytics" },
+            ]},
+            { title: "Legal", links: [
+              { label: "Terms & Conditions", href: "/terms" },
+              { label: "Privacy Policy", href: "/privacy" },
+              { label: "Refund Policy", href: "/refund" },
+            ]},
           ].map((section) => (
             <div key={section.title}>
               <h4 className="font-semibold text-sm text-foreground">{section.title}</h4>
               <ul className="mt-2 space-y-1">
                 {section.links.map((link) => (
-                  <li key={link}>
-                    <span className="text-xs text-muted-foreground hover:text-foreground cursor-pointer transition-colors">
-                      {link}
-                    </span>
+                  <li key={link.label}>
+                    <a href={link.href} className="text-xs text-muted-foreground hover:text-foreground cursor-pointer transition-colors">
+                      {link.label}
+                    </a>
                   </li>
                 ))}
               </ul>

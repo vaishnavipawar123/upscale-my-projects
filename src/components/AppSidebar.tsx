@@ -6,15 +6,14 @@ import {
   BookOpen,
   Newspaper,
   FileText,
-  Users,
   BarChart3,
   Settings,
   Sparkles,
   PenTool,
   MessageSquare,
   PanelLeftClose,
-  PanelLeftOpen,
 } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface SidebarContextType {
   collapsed: boolean;
@@ -36,13 +35,13 @@ const menuItems = [
   { icon: PenTool, label: "Mains Evaluator", path: "/mains-evaluator" },
   { icon: MessageSquare, label: "Mock Interview", path: "/mock-interview" },
   { icon: BarChart3, label: "Analytics", path: "/analytics" },
-  { icon: Users, label: "Community", path: "/community" },
   { icon: Settings, label: "Settings", path: "/settings" },
 ];
 
 export default function AppSidebar() {
   const { collapsed, setCollapsed } = useSidebarCollapsed();
   const location = useLocation();
+  const isMobile = useIsMobile();
 
   return (
     <motion.aside
@@ -107,6 +106,7 @@ export default function AppSidebar() {
             <Link
               key={item.path}
               to={item.path}
+              onClick={() => { if (isMobile) setCollapsed(true); }}
               className={`flex items-center gap-3 h-10 px-3 rounded-lg transition-all duration-200 ${
                 isActive
                   ? "bg-primary/10 text-primary glow-sm"
